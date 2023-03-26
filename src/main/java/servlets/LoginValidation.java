@@ -44,6 +44,7 @@ public class LoginValidation extends HttpServlet {
 		String username = request.getParameter("uname");
 		String password = request.getParameter("password");
 		
+		
 		ApplicationDao dao = new ApplicationDao();
 		
 		if(dao.validateUser(username, password)) {
@@ -51,7 +52,7 @@ public class LoginValidation extends HttpServlet {
 			List<Attendance> records = dao.fetchAttendanceRecord(username);
 			
 			request.setAttribute("records", records);
-			
+			request.setAttribute("uname", username);
 			request.getRequestDispatcher("index.jsp").forward(request, response);
 		}
 		else {

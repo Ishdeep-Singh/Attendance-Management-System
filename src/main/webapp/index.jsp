@@ -18,11 +18,12 @@
 			<h2>Welcome to Attendance Management System</h2>
 			<img src="images/Student.png" height="440" />
 		</div>
+		
 		<div class="col-sm-6">
 			<form>
 				<div class="container">
 					<h2 class="headline">User Attendance Details</h2>
-					<table id="UserAttendance" class="table table-bordered table-hover" >
+					<table id="UserAttendance" class="table table-bordered table-hover">
 						<thead class="thead-light">
 							<tr>
 								<th scope="col">Username</th>
@@ -47,6 +48,19 @@
 				</div>
 
 			</form>
+
+			<form action="MarkAttendance" method="POST">
+				<br>
+				<h4>Mark your Attendance</h4>
+				<div align="center">
+					<button type="submit" class="btn btn-primary" id="punchIn"
+						name="punchIn">Punch-In</button>
+					<input type="hidden" name="uname" value="<%= request.getAttribute("uname") %>">
+					<button type="submit" class="btn btn-primary" id="punchOut"
+						name="punchOut">Punch-Out</button>
+				</div>
+			</form>
+
 		</div>
 	</div>
 

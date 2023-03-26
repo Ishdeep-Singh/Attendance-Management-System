@@ -7,9 +7,9 @@ import java.sql.SQLException;
 import jakarta.servlet.ServletContext;
 
 public class DBConnection {
-
+	public static Connection connection = null;
 	public static Connection getConnectionToDatabase() {
-		Connection connection = null;
+		
 		try {
 
 			// load the driver class
@@ -34,6 +34,17 @@ public class DBConnection {
 			System.out.println("Connection made to DB!");
 		}
 		return connection;
+	}
+	
+	public static void closeConnection(Connection connection) {
+		if(connection != null) {
+			try {
+				connection.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 
 }
