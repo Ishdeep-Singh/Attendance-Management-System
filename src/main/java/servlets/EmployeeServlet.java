@@ -3,7 +3,6 @@ package servlets;
 import java.io.IOException;
 import java.util.List;
 
-import beans.Attendance;
 import beans.Employee;
 import dao.ApplicationDao;
 import jakarta.servlet.ServletException;
@@ -45,6 +44,8 @@ public class EmployeeServlet extends HttpServlet {
 		request.setAttribute("records", records);
 		
 		request.getRequestDispatcher("employee.jsp").forward(request, response);
+		
+		dao.closeConnection();
 	}
 
 }

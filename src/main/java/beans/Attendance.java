@@ -6,7 +6,14 @@ public class Attendance {
 	private String exitTime;
 	private int totalHours;
 	private String currentDate;
+	private String punchFlag;
 	
+	public String getPunchFlag() {
+		return punchFlag;
+	}
+	public void setPunchFlag(String punchFlag) {
+		this.punchFlag = punchFlag;
+	}
 	public String getUsername() {
 		return username;
 	}

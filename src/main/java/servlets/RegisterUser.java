@@ -55,6 +55,8 @@ public class RegisterUser extends HttpServlet {
 		request.setAttribute("rowsAffectedEmployee", rowsAffected[1]);
 		
 		request.getRequestDispatcher("register.jsp").forward(request, response);
+		
+		dao.closeConnection();
 	}
 
 }

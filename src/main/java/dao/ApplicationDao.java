@@ -59,14 +59,8 @@ public class ApplicationDao {
 				attendance.setExitTime(set.getString("exit_time"));
 				attendance.setTotalHours(set.getInt("total_hours"));
 				attendance.setCurrentDate(set.getString("curr_date"));
-
+				attendance.setPunchFlag(set.getString("punch_flag"));
 				attList.add(attendance);
-
-				//				System.out.println("Username:"+uname);
-				//				System.out.println("entry_time:"+attendance.getEntryTime());
-				//				System.out.println("exit_time:"+attendance.getExitTime());
-				//				System.out.println("total_hours:"+attendance.getTotalHours());
-				//				System.out.println("curr date:"+attendance.getCurrentDate());
 			}
 			System.out.println("Attendance List from the DB:"+attList);
 
@@ -146,14 +140,6 @@ public class ApplicationDao {
 				emp.setEmail(set.getString("email"));
 
 				empList.add(emp);
-
-				//				System.out.println(set.getString("username"));
-				//				System.out.println(set.getString("name"));
-				//				System.out.println(set.getString("gender"));
-				//				System.out.println(set.getInt("age"));
-				//				System.out.println(set.getString("address"));
-				//				System.out.println(set.getString("department"));
-				//				System.out.println(set.getString("email"));
 			}
 			System.out.println("Employees List from the DB:"+empList);
 
@@ -166,7 +152,7 @@ public class ApplicationDao {
 	}
 
 
-	public int markAttendance(String username, Time currentTime, Time exitTime, int i, Date currentDate) {
+	public int markAttendance(String username, Time currentTime, Time exitTime, int i, Date currentDate, String punchInFlag) {
 
 		int rowsAffected = 0;
 		String insertQuery = null;
@@ -174,7 +160,7 @@ public class ApplicationDao {
 
 		try {
 
-			insertQuery = "insert into attendance values(?,?,?,?,?)";
+			insertQuery = "insert into attendance values(?,?,?,?,?,?)";
 
 			statement = connection.prepareStatement(insertQuery);
 			statement.setString(1, username);
@@ -182,6 +168,7 @@ public class ApplicationDao {
 			statement.setTime(3, exitTime);
 			statement.setInt(4, i);
 			statement.setDate(5, currentDate);
+			statement.setString(6, punchInFlag);
 
 			rowsAffected = statement.executeUpdate();
 		}
@@ -192,6 +179,57 @@ public class ApplicationDao {
 
 
 		return  rowsAffected;
+	}
+	
+	public int punchOut(String username, Time punchOut, Date currentDate) {
+		int rowsAffected = 0;
+		
+		String sql = "select entry_time from attendance where username = '"+username+"' and curr_date = '"+currentDate+"'order by curr_date desc";
+		Time entryTime = null;
+		try {
+			Statement statement = connection.createStatement();
+			ResultSet set = statement.executeQuery(sql);
+			
+			while(set.next()) {
+				entryTime = set.getTime("entry_time");
+			}
+			System.out.println("Entry time:"+entryTime);
+
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+		}
+		
+		String updateQuery = null;
+		PreparedStatement statement = null;
+
+		try {
+
+			updateQuery = "update attendance set exit_time = ? , punch_flag = ? , total_hours = ? where username = ? and curr_date = ? order by entry_time desc LIMIT 1";
+			
+			statement = connection.prepareStatement(updateQuery);
+			
+			statement.setTime(1, punchOut);
+			statement.setString(2, "F");
+			statement.setInt(3, (int)java.time.Duration.between(punchOut.toLocalTime(), entryTime.toLocalTime()).toHours() );
+			statement.setString(4, username);
+			statement.setDate(5, currentDate);
+			
+			System.out.println("Punch Out:"+punchOut);
+			
+			rowsAffected = statement.executeUpdate();
+			
+		}
+		catch(SQLException e) {
+			System.out.println("Exception while entering data in users:"+e.getMessage());
+			e.printStackTrace();
+		}
+		
+		return rowsAffected;
+	}
+	
+	public void closeConnection() {
+		DBConnection.closeConnection(connection);
 	}
 	
 }

@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -54,10 +54,18 @@
 				<h4>Mark your Attendance</h4>
 				<div align="center">
 					<button type="submit" class="btn btn-primary" id="punchIn"
-						name="punchIn">Punch-In</button>
+						name="punchIn" 
+						<% if(request.getAttribute("punchFlag").toString().equalsIgnoreCase("Y")){ %>
+						disabled
+						<% } %>
+						>Punch-In</button>
 					<input type="hidden" name="uname" value="<%= request.getAttribute("uname") %>">
 					<button type="submit" class="btn btn-primary" id="punchOut"
-						name="punchOut">Punch-Out</button>
+						name="punchOut"
+						<% if(request.getAttribute("punchFlag").toString().equalsIgnoreCase("F")){ %>
+						disabled
+						<% } %>
+						>Punch-Out</button>
 				</div>
 			</form>
 

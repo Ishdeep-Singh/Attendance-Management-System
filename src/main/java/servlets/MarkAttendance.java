@@ -1,15 +1,13 @@
 package servlets;
 
 import java.io.IOException;
+import java.sql.Date;
+import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
 import beans.Attendance;
-
-import java.sql.Date;
-import java.sql.Time;
-
 import dao.ApplicationDao;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -42,8 +40,6 @@ public class MarkAttendance extends HttpServlet {
 		
 		ApplicationDao dao = new ApplicationDao();
 		Time currentTime = Time.valueOf(LocalTime.now());
-		//DateTimeFormatter formatTime = DateTimeFormatter.ofPattern("HH:mm:ss");
-		//String time = formatTime.format(currentTime);
 		
 		Date currentDate = Date.valueOf(LocalDate.now());
 		
@@ -51,7 +47,7 @@ public class MarkAttendance extends HttpServlet {
 		System.out.println("Got Username:"+username);
 		
 		if(punchIn != null) {
-			int rowsAffected = dao.markAttendance(username, currentTime, null, 0, currentDate);
+			int rowsAffected = dao.markAttendance(username, currentTime, null, 0, currentDate, "Y");
 			System.out.println("Data enetered in the table for the user:"+username);
 			
 			if(rowsAffected > 0) {
@@ -60,6 +56,7 @@ public class MarkAttendance extends HttpServlet {
 				
 				request.setAttribute("records", records);
 				request.setAttribute("uname", username);
+				request.setAttribute("punchFlag", records.get(records.size()-1).getPunchFlag());
 				request.getRequestDispatcher("index.jsp").forward(request, response);
 				
 			}
@@ -67,8 +64,21 @@ public class MarkAttendance extends HttpServlet {
 		}
 		
 		else if(punchOut != null) {
-			System.out.println("Punch Out time:"+currentTime);
+			int rowsAffected = dao.punchOut(username, currentTime, currentDate);
+			System.out.println("Rows affected:"+rowsAffected);
+			if(rowsAffected > 0) {
+				request.setAttribute("punchOut", "Success");
+				List<Attendance> records = dao.fetchAttendanceRecord(username);
+				
+				request.setAttribute("records", records);
+				request.setAttribute("uname", username);
+				request.setAttribute("punchFlag", records.get(records.size()-1).getPunchFlag());
+				request.getRequestDispatcher("index.jsp").forward(request, response);
+				
+			}
 		}
+		
+		dao.closeConnection();
 	}
 
 }

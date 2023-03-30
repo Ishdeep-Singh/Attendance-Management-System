@@ -1,7 +1,6 @@
 package servlets;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import beans.Attendance;
@@ -53,6 +52,7 @@ public class LoginValidation extends HttpServlet {
 			
 			request.setAttribute("records", records);
 			request.setAttribute("uname", username);
+			request.setAttribute("punchFlag", records.get(records.size()-1).getPunchFlag());
 			request.getRequestDispatcher("index.jsp").forward(request, response);
 		}
 		else {
@@ -60,6 +60,7 @@ public class LoginValidation extends HttpServlet {
 			request.setAttribute("error", errorMessage);
 			request.getRequestDispatcher("error.jsp").forward(request, response);
 		}
+		dao.closeConnection();
 		
 	}
 
