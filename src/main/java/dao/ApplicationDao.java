@@ -9,6 +9,7 @@ import java.sql.Statement;
 import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,6 +53,20 @@ public class ApplicationDao {
 		try {
 			Statement statement = connection.createStatement();
 			ResultSet set = statement.executeQuery(sql);
+			if(set.next() == false) {
+				
+					attendance = new Attendance();
+					
+					attendance.setCurrentDate("");
+					attendance.setEntryTime("");
+					attendance.setExitTime("");
+					attendance.setPunchFlag("");
+					attendance.setUsername("");
+					attendance.setTotalHours(0);
+					attList.add(attendance);
+				
+			}
+			else
 			while(set.next()) {
 				attendance = new Attendance();
 				attendance.setUsername(uname);
@@ -211,7 +226,7 @@ public class ApplicationDao {
 			
 			statement.setTime(1, punchOut);
 			statement.setString(2, "F");
-			statement.setInt(3, (int)java.time.Duration.between(punchOut.toLocalTime(), entryTime.toLocalTime()).toHours() );
+			statement.setInt(3, (int)Math.abs(ChronoUnit.HOURS.between(punchOut.toLocalTime(), entryTime.toLocalTime())) );
 			statement.setString(4, username);
 			statement.setDate(5, currentDate);
 			

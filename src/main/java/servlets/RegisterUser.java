@@ -56,7 +56,7 @@ public class RegisterUser extends HttpServlet {
 		
 		request.getRequestDispatcher("register.jsp").forward(request, response);
 		
-		dao.closeConnection();
+		//dao.closeConnection();
 	}
 
 }

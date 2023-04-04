@@ -78,7 +78,7 @@ public class MarkAttendance extends HttpServlet {
 			}
 		}
 		
-		dao.closeConnection();
+		//dao.closeConnection();
 	}
 
 }

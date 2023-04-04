@@ -1,6 +1,7 @@
 package servlets;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import beans.Attendance;
@@ -60,7 +61,7 @@ public class LoginValidation extends HttpServlet {
 			request.setAttribute("error", errorMessage);
 			request.getRequestDispatcher("error.jsp").forward(request, response);
 		}
-		dao.closeConnection();
+		//dao.closeConnection();
 		
 	}
 

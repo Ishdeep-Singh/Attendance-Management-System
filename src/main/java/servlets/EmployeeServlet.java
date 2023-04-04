@@ -45,7 +45,7 @@ public class EmployeeServlet extends HttpServlet {
 		
 		request.getRequestDispatcher("employee.jsp").forward(request, response);
 		
-		dao.closeConnection();
+		//dao.closeConnection();
 	}
 
 }
