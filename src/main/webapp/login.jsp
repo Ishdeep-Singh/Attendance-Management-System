@@ -20,7 +20,7 @@
 			<form method = "POST" action="LoginValidation">
 			<h1 align = "center">Login</h1>
 				<div align = "left">
-					<label class = "form-label">Username</label>
+					<label class = "form-label">ID</label>
 					<input class = "form-control" type = "text" id = "uname" name = "uname" placeholder = "Username">
 				</div>
 				<br>

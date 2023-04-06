@@ -44,23 +44,28 @@ public class LoginValidation extends HttpServlet {
 		String username = request.getParameter("uname");
 		String password = request.getParameter("password");
 		
-		
-		ApplicationDao dao = new ApplicationDao();
-		
-		if(dao.validateUser(username, password)) {
-			
-			List<Attendance> records = dao.fetchAttendanceRecord(username);
-			
-			request.setAttribute("records", records);
-			request.setAttribute("uname", username);
-			request.setAttribute("punchFlag", records.get(records.size()-1).getPunchFlag());
-			request.getRequestDispatcher("index.jsp").forward(request, response);
+		if(request.getParameter("reset")!=null) {
+			request.getRequestDispatcher("login.jsp").forward(request, response);
 		}
 		else {
-			String errorMessage = "Invalid Credentials. Please login again";
-			request.setAttribute("error", errorMessage);
-			request.getRequestDispatcher("error.jsp").forward(request, response);
+			ApplicationDao dao = new ApplicationDao();
+			
+			if(dao.validateUser(username, password)) {
+				
+				List<Attendance> records = dao.fetchAttendanceRecord(username);
+				
+				request.setAttribute("records", records);
+				request.setAttribute("uname", username);
+				request.setAttribute("punchFlag", records.get(records.size()-1).getPunchFlag());
+				request.getRequestDispatcher("index.jsp").forward(request, response);
+			}
+			else {
+				String errorMessage = "Invalid Credentials. Please login again";
+				request.setAttribute("error", errorMessage);
+				request.getRequestDispatcher("error.jsp").forward(request, response);
+			}
 		}
+		
 		//dao.closeConnection();
 		
 	}
