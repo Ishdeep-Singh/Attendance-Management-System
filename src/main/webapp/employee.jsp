@@ -21,7 +21,7 @@
 					<table id="UserAttendance" class="table table-bordered table-hover" >
 						<thead class="thead-light">
 							<tr>
-								<th scope="col">Username</th>
+								<th scope="col">ID</th>
 								<th scope="col">Name</th>
 								<th scope="col">Age</th>
 								<th scope="col">Gender</th>

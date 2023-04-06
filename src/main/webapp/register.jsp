@@ -18,6 +18,8 @@
 		</div>
 		<% if(request.getAttribute("rowsAffectedUser")!=null && request.getAttribute("rowsAffectedEmployee")!=null){ %>
 		<h2>User registered successfully</h2>
+		<% } else if(request.getAttribute("error")!=null) { %>
+		<h2>ID already exists. Try entering new one.</h2>
 		<% } else {%>
 		<div class="col-sm-4">
 			<h1 align="center">Register</h1>
@@ -25,9 +27,9 @@
 				<label class="form-label">Name</label><br> <input type="text"
 					name="name" /> <br> <label class="form-label">Email</label><br>
 				<input type="text" name="email" /> <br> <label
-					class="form-label">Username</label><br> <input type="text"
-					name="uname" /> <br> <label class="form-label">Password</label><br>
-				<input type="password" name="password" /> <br> <label
+					class="form-label">ID</label><br> <input type="text"
+					name="uname" required /> <br> <label class="form-label">Password</label><br>
+				<input type="password" name="password" required /> <br> <label
 					class="form-label">Age</label><br> <input type="text"
 					name="age" /> <br> <label class="form-label">Gender</label> <br>
 				<input type="text" name="gender" /> <br> <label

@@ -51,8 +51,13 @@ public class RegisterUser extends HttpServlet {
 		ApplicationDao dao = new ApplicationDao();
 		String rowsAffected[] = dao.registerUser(username, name, password, age, gender, address, department, email).split(",");
 		
-		request.setAttribute("rowsAffectedUser", rowsAffected[0]);
-		request.setAttribute("rowsAffectedEmployee", rowsAffected[1]);
+		if(rowsAffected[0].equalsIgnoreCase("error")) {
+			request.setAttribute("error", rowsAffected[1]);
+		}
+		else {
+			request.setAttribute("rowsAffectedUser", rowsAffected[0]);
+			request.setAttribute("rowsAffectedEmployee", rowsAffected[1]);
+		}
 		
 		request.getRequestDispatcher("register.jsp").forward(request, response);
 		

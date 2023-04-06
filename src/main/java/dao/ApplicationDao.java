@@ -93,6 +93,21 @@ public class ApplicationDao {
 		int rowsAffectedEmployees = 0;
 		String insertQuery = null;
 		PreparedStatement statement = null;
+		
+		String sql = "select username from users";
+
+		try {
+			Statement statement1 = connection.createStatement();
+			ResultSet set = statement1.executeQuery(sql);
+			while(set.next()) {
+				if(set.getString("username").toString().equals(username)) {
+					return "error,ID already exists. Try entering new one";
+				}
+			}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
 
 		try {
 

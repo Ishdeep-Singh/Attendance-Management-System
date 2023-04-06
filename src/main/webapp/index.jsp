@@ -26,7 +26,7 @@
 					<table id="UserAttendance" class="table table-bordered table-hover">
 						<thead class="thead-light">
 							<tr>
-								<th scope="col">Username</th>
+								<th scope="col">ID</th>
 								<th scope="col">Current date</th>
 								<th scope="col">Entry Time</th>
 								<th scope="col">Exit Time</th>
